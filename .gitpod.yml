@@ -1,8 +1,9 @@
 tasks:
   - name: Run
-    init: |
-      # Create 100 binary files
-      for i in {1..100}; do
-        dd if=/dev/zero of=public/file${i}.bin bs=1M count=10 >/dev/null 2>&1
-      done
+    init: generate.sh
     command: nginx -g "daemon off;"
+
+ports:
+  - port: 8002
+    visibility: public
+    onOpen: open-browser
