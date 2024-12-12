@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Load Test</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+  }
+  #status {
+    font-size: 1.2em;
+    color: #333;
+  }
+  #time {
+    font-size: 2em;
+    color: #000;
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+<h1>Load Test for 100 Files</h1>
+<p id="status">Loading 100 files...</p>
+<p id="time"></p>
+<script>
+(async function() {
+    const totalFiles = 100;
+    const fileUrls = [];
+    for (let i = 1; i <= totalFiles; i++) {
+        fileUrls.push('file' + i + '.bin');
+    }
+
+    const startTime = performance.now();
+
+    // Fetch all files in parallel
+    const fetchPromises = fileUrls.map(url => fetch(url).then(r => r.blob()));
+    
+    // Wait for all fetches to complete
+    await Promise.all(fetchPromises);
+
+    const endTime = performance.now();
+    const totalTime = (endTime - startTime) / 1000; // seconds
+
+    document.getElementById('status').textContent = 'All 100 files loaded!';
+    document.getElementById('time').textContent = 'Total Load Time: ' + totalTime.toFixed(2) + 's';
+})();
+</script>
+</body>
+</html>
