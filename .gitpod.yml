@@ -1,6 +1,6 @@
 tasks:
   - name: Run
-    init: generate.sh
+    init: ./generate.sh
     command: nginx -g "daemon off;"
 
 ports:
